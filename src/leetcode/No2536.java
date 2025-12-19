@@ -1,3 +1,5 @@
+package leetcode;
+
 public class No2536 {
     public int[][] rangeAddQueries(int n, int[][] queries) {
         int[][] maze = new int[n][n];

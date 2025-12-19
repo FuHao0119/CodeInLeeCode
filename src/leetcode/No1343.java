@@ -1,3 +1,5 @@
+package leetcode;
+
 public class No1343 {
     public int numOfSubarrays(int[] arr, int k, int threshold) {
         int i = 0; int j = k; int count = 0;

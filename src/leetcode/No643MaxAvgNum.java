@@ -1,3 +1,5 @@
+package leetcode;
+
 public class No643MaxAvgNum {
     public double findMaxAverage(int[] nums, int k) {
         int i = 0; int j = k-1;

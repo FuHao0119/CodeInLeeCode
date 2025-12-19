@@ -1,3 +1,5 @@
+package leetcode;
+
 public class No2379 {
     public int minimumRecolors(String blocks, int k) {
         char[] blocksArr = blocks.toCharArray();

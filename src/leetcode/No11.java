@@ -1,3 +1,5 @@
+package leetcode;
+
 public class No11 {
     public int maxArea(int[] height) {
         int len = height.length;

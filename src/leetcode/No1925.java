@@ -1,3 +1,5 @@
+package leetcode;
+
 public class No1925 {
     public int countTriples(int n) {
         int count = 0;

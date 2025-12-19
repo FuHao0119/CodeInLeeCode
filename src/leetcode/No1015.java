@@ -1,3 +1,5 @@
+package leetcode;
+
 public class No1015 {
     public int smallestRepunitDivByK(int k) {
         if(k%2 == 0) return -1;

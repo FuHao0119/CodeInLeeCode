@@ -1,3 +1,5 @@
+package leetcode;
+
 public class No2110 {
     public long getDescentPeriods(int[] prices) {
         if(prices.length == 1) return 1;
