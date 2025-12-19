@@ -1,5 +1,9 @@
 package sdju_exam2;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
 /**
  * 链接：https://ac.nowcoder.com/acm/contest/124775/D
  * 来源：牛客网
@@ -19,6 +23,30 @@ package sdju_exam2;
  */
 public class code4 {
     public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        List<String> list1 = new ArrayList<>();
+        List<String> list2 = new ArrayList<>();
+        for(int i = 0; i < n; i++){
+            String str = sc.next();
+            list1.add(str);
+        }
+        for(int i = 0; i < n; i++){
+            String str = sc.next();
+            list2.add(str);
+        }
 
+        // list1 : ["",""]
+        // list2 : ["",""]
+        int max = 0;
+        for(int i = 0; i < n; i++){
+            if(list1.get(i).equals(list2.get(i))){ // 相同
+                max += 2;
+            }else{
+                max += 1;
+            }
+        }
+
+        System.out.println(max + " 0");
     }
 }
