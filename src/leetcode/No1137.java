@@ -1,4 +1,4 @@
-package leetcode
+package leetcode;
 
 class No1137{
 	public int tribonacci(int n) {
