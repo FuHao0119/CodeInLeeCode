@@ -1,5 +1,8 @@
 package leetcode;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class No401 {
     public List<String> readBinaryWatch(int turnedOn) {
         // 我们可以枚举小时的所有可能值 [0,11]，以及分钟的所有可能值 [0,59]，并计算二者的二进制中 1 的个数之和，若为 turnedOn，则将其加入到答案中。
