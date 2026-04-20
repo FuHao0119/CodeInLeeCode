@@ -1,3 +1,7 @@
+package leetcode;
+
+import java.util.PriorityQueue;
+
 class No3418{
 	    public int maximumAmount(int[][] coins) {
         int m = coins.length; int n = coins[0].length;
