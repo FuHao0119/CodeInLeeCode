@@ -5,8 +5,8 @@ def activity_select(items):
     last_end_time = 0
 
     for start, end in items:
-        if end > last_end_time:
-            ans.append(start, end)
+        if start >= last_end_time:
+            ans.append((start, end))
             last_end_time = end
 
     return ans
