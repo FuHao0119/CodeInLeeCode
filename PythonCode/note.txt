@@ -1,0 +1,23 @@
+dp解决01背包
+二维数组填表格
+第i行： 表示正在考虑拿不拿第i个物品
+第j列： 表示考虑的时候背包目前的容量
+dp[i][j]: 表示当背包容量为j的时候，从前i个物品里面挑选商品能获得的最大价值
+
+def knapsack(weights: list[int], values: list[int], capacity: int) -> int:
+    n = len(weights) # 物品的总数
+
+    # 1. 创建二维 dp 数组 (记得考虑 n=0 和 capacity=0 的情况)
+    dp = [[0]*(capacity+1) for _ in range(n+1)]
+
+    # 3. 嵌套 for 循环遍历物品和容量
+    for i in range(1, n+1):
+        for j in range(1, capacity+1):
+            w = weights[i-1]  # 当前物品的重量
+            v = values[i-1]
+            if w > j: dp[i][j] = dp[i-1][j]
+            else:
+                dp[i][j] = max(dp[i-1][j-w]+v , dp[i-1][j])
+
+    # 最终你需要返回表格右下角的那个值
+    return dp[n][capacity] # 你的最终结果

@@ -1,16 +1,16 @@
 # 01背包问题
-def knapsack(weight, values, cap):
-    # weight是一个数组 存放所有物品的重量 values是个数组 存放所有物品的价值 cap为最大承重
-    n = len(weight)
-    dp = [[0]*(cap+1) for i in range(n+1)]
-    # 定义dp[i][c] 当背包容量为c的时候，只考虑前i个物品，所能选到的最大价值
-    for i in range(n+1):
-        for c in range(cap+1)：
-            current_weight = weight[i-1] # 当前物品的重量
-            current_value  = values[i-1] # 当前物品的价值
-            dp[i][c] = dp[i-1][c] 
-            if current_weight >= c:  # 当我当前背包的容量大于当前物品的重量的时候考虑选或者不选
-                dp[i][c] = max(dp[i][c], dp[i-1][c - current_weight] + current_value)
-
+def knapsack(weights, values, cap):
+    # weights: 物品重量列表, values: 物品价值列表, cap: 背包最大容量
+    n = len(weights)
+    dp = [[0] * (cap + 1) for _ in range(n + 1)]
+    # dp[i][c] 表示考虑前i个物品，容量为c时的最大价值
+    for i in range(1, n + 1):
+        for c in range(cap + 1):
+            dp[i][c] = dp[i - 1][c]  # 不选第i个物品
+            if c >= weights[i - 1]:  # 容量足够选第i个物品
+                dp[i][c] = max(dp[i][c], dp[i - 1][c - weights[i - 1]] + values[i - 1])
     return dp[n][cap]
 
+# 测试
+assert knapsack([2, 3, 4], [3, 4, 5], 5) == 7
+print("Knapsack passed")

@@ -1,13 +1,17 @@
-def binary_search(arr,num):
-    left, right = 0, len(arr)-1
-    while left < right:
-        mid = (left+right)/2
-        if(num==arr[mid]): return mid
-        else if(num>=arr[mid]):
-            left = mid+1
+# 二分查找
+def binary_search(arr, target):
+    left, right = 0, len(arr) - 1
+    while left <= right:
+        mid = (left + right) // 2
+        if arr[mid] == target:
+            return mid
+        elif arr[mid] < target:
+            left = mid + 1
         else:
-            right = mid-1
-
+            right = mid - 1
     return -1
 
-
+# 测试
+arr = [1, 3, 5, 7, 9]
+assert binary_search(arr, 7) == 3
+print("Binary Search passed")

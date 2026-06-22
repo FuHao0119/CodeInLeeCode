@@ -43,7 +43,6 @@ def solve(n):
 ---
 
 **3. 快速排序划分思想**
-
 ```python
 def quick_sort(a):
     ________________
@@ -207,7 +206,7 @@ print(binary_search(arr, 7))
 def binary_search(a, target):
     left, right = 0, len(a) - 1
     while left <= right:
-        mid = (left + right) # 2
+        mid = (left + right) // 2
         if a[mid] == target:
             return mid
         if a[mid] < target:

@@ -1,0 +1,450 @@
+def act(arr): # [(10, 30), (20,40) .... ]
+    arr = sorted(arr, key=lambda x : x[1])  # 按照活动结束时间排序
+    end_time = -1
+    ans = []
+    for a in arr:
+        if a[0] >= end_time:
+            ans.append(a)
+            end_time = a[1]
+    return ans
+
+
+def merge_sort(arr):
+    if len(arr) == 1: return arr
+    left, right = 0, len(arr)-1
+    mid = (left + right) // 2
+    left_half = arr[:mid]
+    right_half= arr[mid:]
+    left_sorted = merge_sort(left_half)
+    right_sorted = merge_sort(right_half)
+    return merge(left_sorted, right_sorted)
+
+def merge(arr1, arr2):
+    i, j = 0, 0
+    ans = []
+    while i<len(arr1) and j<len(arr2):
+        if arr1[i] <= arr2[j]:
+            ans.append(arr1[i])
+            i+=1
+        else:
+            ans.append(arr2[j])
+            j+=1
+    ans.extend(arr1[i:])
+    ans.extend(arr2[j:])
+    return ans
+
+O(nlogn) O(n)
+
+
+def binary_search(arr, n):
+    i, j = 0, len(arr)-1
+    while i<=j:
+        mid = (i+j) // 2
+        if arr[mid] == n: return mid
+        if arr[mid] >= n: j = mid - 1
+        if arr[mid] < n: i = mid + 1
+    return -1
+
+O(logn)
+
+
+def max_loading(weights, cap):
+    best_w = 0
+    heap = [( -sum(weights), 0, 0 )]   # 上界 第0个物品 目前已装重量为0
+    while heap:
+        currend_bound, i, currend_w  = heappop(heap)
+        if -currend_bound <= best_w:
+            continue  # 剪枝 如果理论上限连历史最高记录都比不过，直接放弃
+
+        if i == len(weights): continue # 终止条件：防止越界
+
+        if weights[i] + currend_w <= cap:
+            best_w = max(best_w, weights[i] + currend_w)
+            new_bound = -(weights[i] + currend_w + sum(weights[i+1:]))
+            heappush(heap,( new_bound, i+1,  weights[i] + currend_w))
+
+        skip_bound = -(currend_w + sum(weights[i+1:]))
+        heappush(heap,( skip_bound, i+1,  currend_w))
+
+    return best_w
+
+
+def binary_search(arr, n):
+    left, right = 0, len(arr)-1
+    while left <= right:
+        mid = (left+right) // 2
+        if arr[mid] == n: return mid
+        elif arr[mid] > n: right = mid - 1
+        else: left = mid + 1
+
+    return -1
+
+
+def merge_sort(arr):
+    if len(arr) == 1: return arr
+    left, right = 0, len(arr)-1
+    mid = (left+right) // 2
+    left_half = arr[:mid]
+    right_half = arr[mid:]
+    left_sorted = merge_sort(left_half)
+    right_sorted = merge_sort(right_half)
+    return merge(left_sorted, right_sorted)
+
+
+
+def sub_sum(arr, t):
+    n = len(arr)
+    ans = []
+
+    def dfs(i, path, total):
+        if total == t:
+            ans.append(path.copy())
+            return
+        if i==n or total > t: return  # 剪枝
+
+        path.append(i)
+        dfs(i+1, path, total + arr[i])
+        path.pop()  # 回溯
+        dfs(i+1, path, total)
+
+    dfs(0, [], 0)
+    return ans
+
+def bb(weights, values, cap):
+    n = len(weights)
+    best = 0
+    heap = [( -sum(values), 0, 0, 0)]
+
+    while heap:
+        curr_bound, i, w, v = heapq.heappop(heap)  # 考虑到第i个物品是，背包重w, 价值v bound是上界
+        if -curr_bound <= best or i==n:   # 如果上界比best还小 则剪枝
+            continue
+
+        if w + weights[i] <= cap:  # 选择这个物品
+            new_w = w + weights[i]
+            new_v = v + values[i]
+            best = max(best, new_v)
+            new_bound = -(new_v + sum(values[i+1:]))
+            heapq.heappush(heap, (new_bound, i+1, new_w, new_v))
+
+        # 不选择这个物品
+        skip_bound = -(v + sum(values[i+1:]))
+        heapq.heappush(heap, (skip_bound, i+1, w, v))
+
+    return best
+
+
+def max_loading():
+
+
+
+def quick_sort(arr):
+    if len(arr) == 1: return arr
+    pivot = arr[0]
+    left = [x for x in arr[1:] if x <= pivot]
+    right = [x for x in arr[1:] if x > pivot]
+    return quick_sort(left) + [pivot] + quick_sort(right)
+
+
+def safe(cols, row, col):
+    for r, c in enumerate(cols):
+        if c == col or abs(r-row)==abs(c-col):
+            return False
+
+    return True
+
+def n_queen(n):
+    ans = []
+
+    def backtrack(cols, row):
+        if row == n:
+            ans.append(cols[:])
+            return
+        for col in range(n):
+            if safe(cols, row, col):
+                cols.append(col)
+                backtrack(cols, row+1)
+                cols.pop()  # 回溯
+
+    backtrack([], 0)
+    return ans
+
+
+def binary_search(arr, n):
+    i, j = 0, len(arr)-1
+    while i <= j:
+        mid = (i+j) // 2
+        if arr[mid] == n: return mid
+        elif arr[mid] >= n: j = mid - 1
+        else:
+            i = mid + 1
+    return -1
+
+
+def huffman(weights):
+    heap = heapq.heapify(weights)
+    wpl = 0
+    while len(heap) > 1:
+        w1 = heapq.heappop(heap)
+        w2 = heapq.heappop(heap)
+        wpl += (w1 + w2)
+        create_node(w1, w2)  # 创建父节点 并合并节点的方法
+        heapq.heappush(heap, w1 + w2)
+
+    return wpl
+
+
+def lcs(arr1, arr2):
+    n, m = len(arr1), len(arr2)
+    dp = [[0] * (n+1) for _ in range(m+1)]
+
+    for i in range(1, m+1):
+        for j in range(1, n+1):
+            if arr1[j-1] == arr2[i-1]:
+                dp[i][j] = dp[i-1][j-1] + 1
+            else:
+                dp[i][j] = max(dp[i-1][j], dp[i][j-1])
+
+    return dp[m][n]
+
+
+def activities(arr):
+    arr = sorted(arr, key=lambda x : x[1])
+    last_end = -1
+    ans = []
+    for a in arr:
+        if a[0] >= last_end:
+            ans.append(a)
+            last_end = a[1]
+    return ans
+
+```
+  0 a r r 2
+0
+a
+r
+r
+1
+```
+
+def lcs(arr1, arr2):
+    n, m = len(arr1), len(arr2)
+    dp = [[0]*(m+1) for _ in range(n+1)]
+
+    for i in range(1, n+1):
+        for j in range(1, m+1):
+            if arr1[i-1] == arr2[j-1]:
+                dp[i][j] = dp[i-1][j-1] + 1
+            else:
+                dp[i][j] = max(dp[i-1][j], dp[i][j-1])
+
+    return dp[n][m]
+
+恢复序列伪代码: 从dp[n][m]开始，若字符相等则选择这个字符加入到列表 若不相等则往dp值大的方向走并加入那个位置的字符 直到走到dp[1][1]
+
+
+def dp_bag(weights, values, cap):
+    n = len(weights)
+    dp = [[0]*(cap+1) for _ in range(n+1)]
+
+    for i in range(1, n+1):
+        for j in range(1, cap+1):
+            w = weights[i-1]
+            v = values[i-1]
+            # 如果容量不够，保持之前的状态
+            if w > j:
+                dp[i][j] = dp[i-1][j]
+            else:
+                dp[i][j] = max( dp[i][j-w]+v , dp[i-1][j] )
+                ```
+                max(
+                 不选这个物品时，背包在这个剩余容量时能有的最大价值,
+                 当背包容量只有 j−w 时，我们能拿到多少价值
+                 )
+                ```
+
+    return dp[n][cap]
+
+
+def merge(arr1, arr2):
+    i, j = 0, 0
+    ans = []
+    while i<len(arr1) or j<len(arr2):
+        if arr1[i] <= arr2[j]:
+            ans.append(arr1[i])
+            i+=1
+        else:
+            ans.append(arr2[j])
+            j+=1
+    ans.extend(arr1[i:])
+    ans.extend(arr2[j:])
+    return ans
+
+def merge_sort(arr):
+    if len(arr) == 1:
+        return arr
+    mid = len(arr) // 2
+    left = merge_sort(arr[:mid])
+    right = merge_sort(arr[mid:])
+    return merge(left, right)
+
+O(nlogn)
+
+
+def max_loading(weights, cap):
+    n = len(weights)
+    best = 0
+    heap = [(-sum(weights), 0, 0)]  # 最小堆模拟优先队列
+    while heap:
+        curr_bound, i, w = heapq.heappop(heap)  # 上界，选到第i个物品的时候，已经有的重量
+        if -curr_bound < best or i == n:   # 剪枝
+            continue
+
+        if weights[i] + w <= cap:  # 选择装第i个物品
+            currend_w = weights[i] + w
+            best = max(best, currend_w)
+            new_bound = -(sum(weights[i+1:]) + currend_w)
+            heapq.heappush((new_bound, i+1, currend_w))
+
+        # 不选这个物品
+        skip_bound = -(sum(weights[i+1:]) + w)
+        heapq.heappush((skip_bound, i+1, w))
+    return best
+
+def huffman(weights):
+    heap = heapq.heapify(weights)
+    wpl = 0
+    while len(heap) > 1:
+        w1 = heapq.heappop(heap)
+        w2 = heapq.heappop(heap)
+        wpl += (w1+w2)
+        create_node(w1,w2)  # 伪代码，根据最小的两个节点创建父节点并合并
+        heapq.heappush(heap, w1+w2)  # 入队
+    return wpl
+
+
+def arr_sum(arr, t):
+    ans = []
+    n = len(arr)
+
+    def backtrack(i, path, total):
+        if total == t:
+            ans.append(path[:])
+            return
+        if total > t or i == n: # 剪枝
+            return
+
+        path.append(arr[i])
+        backtrack(i+1, path, total+arr[i])
+        path.pop()
+        backtrack(i+1, path, total)
+
+    backtrack(0, [], 0)
+    return ans
+
+
+def dp_bag(weights, values, cap):
+    n = len(weights)
+    dp = [[0]*(cap+1) for _ in range(n+1)]
+    for i in range(1, n+1):
+        for j in range(1, cap+1):
+            w = weights[i-1]
+            v = values[i-1]
+            if w > j:  # 如果重量大于现在的容量 就使用考虑上一个物品的dp值
+                dp[i][j] = dp[i-1][j]
+            elif w<=j:
+                dp[i][j] = max( dp[i-1][j], dp[i-1][j-w]+v )
+
+    return dp[n][cap]
+
+
+def heap_bag(weights, values, cap):
+    n = len(weights)
+    best = 0
+    heap = [( -sum(values), 0, 0, 0)]  # 上界 第i个物品 目前总重量 目前总价值
+
+    while heap:
+        curr_bound, i, w, v = heapq.heappop(heap)
+        if -curr_bound < best or i==n:  # 剪枝
+            continue
+
+        if w + weights[i] <= cap:  # 选择这个物品
+            curr_w = w + weights[i]   # 选了这个物品之后的重量
+            curr_v = v + values[i]
+            best = max(best, curr_v)
+            new_bound = -(sum(values[i+1:]) + curr_v)
+            heapq.heappush(heap, (new_bound, i+1, curr_w, curr_v))
+
+        # 不选这个物品
+        skip_bound = -(sum(values[i+1:]) + v)
+        heapq.heappush(heap,(skip_bound, i+1, w, v))
+
+    return best
+
+def arr_sum(arr, t):
+    ans = []
+    n = len(arr)
+
+    def backtrack(i, path, total):
+        if total == t:
+            ans.append(path[:])
+            return
+
+        if total > t or i == n:  # 剪枝
+            return
+
+        path.append(arr[i])
+        backtrack(i+1, path, total+arr[i])
+        path.pop()
+        backtrack(i+1, path, total)
+
+    backtrack(0, [], 0)
+    return ans
+
+def safe(cols, row, col):
+    for r, c in enumerate(cols):
+        if c == col or abs(r-row)==abs(l-col):
+            return False
+    return True
+
+def n_queen(n):
+    ans = []
+    def backtrack(cols, row):
+        if row == n:
+            ans.append(cols[:])
+
+        for col in range(n):
+            if safe(cols, row, col):
+                cols.append(col)
+                backtrack(cols, row+1)
+                cols.pop()  # 回溯
+
+    backtrack([],0)
+    return ans
+
+
+
+def quick_sort(arr):
+    if len(arr) <= 1: return arr
+    pivot = arr[0]
+    left = [x for x in arr[1:] if x <= pivot]
+    right = [x for x in arr[1:] if x > pivot]
+    return quick_sort(left) + [pivot] + quick_sort(right)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
